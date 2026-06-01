@@ -2,7 +2,6 @@
 import CallToAction from "../../components/CallToAction.astro";
 import WorkCard from "../../components/WorkCard.astro";
 import SiteLayout from "../../layouts/SiteLayout.astro";
-import { withBase } from "../../lib/routes.js";
 
 const email = "abeszilagyi@gmail.com";
 ---
@@ -69,9 +68,6 @@ const email = "abeszilagyi@gmail.com";
                   rel="noopener noreferrer"
                 >
                   Try live demo
-                </a>
-                <a class="button secondary" href={withBase("/work/utility-work-coordination-console/")}>
-                  Read case study
                 </a>
               </div>
             </div>
