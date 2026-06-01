@@ -1,0 +1,48 @@
+---
+import Badge from "./Badge.astro";
+import { withBase } from "../lib/routes.js";
+
+const {
+  title,
+  badges = [],
+  href,
+  linkText,
+  sampleId,
+  isActive = false,
+  class: className = "work-card",
+} = Astro.props;
+
+const hasBody = Astro.slots.has("default");
+---
+
+<article
+  class:list={[className, sampleId && "is-selectable", isActive && "is-active"]}
+  data-work-sample-card={sampleId}
+>
+  <h3>{title}</h3>
+  {hasBody && (
+    <p>
+      <slot />
+    </p>
+  )}
+  {badges.length > 0 && (
+    <div class="badge-row">
+      {badges.map((badge) => (
+        <Badge variant={badge.variant}>{badge.label ?? badge}</Badge>
+      ))}
+    </div>
+  )}
+  {sampleId && (
+    <button
+      class="work-card-trigger"
+      type="button"
+      data-work-sample-trigger={sampleId}
+      aria-controls={`${sampleId}-detail`}
+      aria-pressed={isActive ? "true" : "false"}
+      aria-label={`Show ${title} details`}
+    >
+      <span>{title}</span>
+    </button>
+  )}
+  {href && linkText && <a href={withBase(href)}>{linkText}</a>}
+</article>

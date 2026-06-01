@@ -1,0 +1,35 @@
+---
+import { withBase, withoutBase } from "../lib/routes.js";
+
+const currentPath = withoutBase(Astro.url.pathname).replace(/\/index\.html$/, "/");
+
+const links = [
+  { href: "/", label: "About Me" },
+  { href: "/work/", label: "Work Samples" },
+];
+
+const isActive = (href) => {
+  const url = new URL(href, "https://example.com");
+  const path = url.pathname;
+
+  if (url.hash) {
+    return false;
+  }
+
+  if (path === "/") {
+    return currentPath === "/";
+  }
+
+  return currentPath.startsWith(path);
+};
+---
+
+<nav class="site-nav" aria-label="Primary navigation">
+  {
+    links.map((link) => (
+      <a href={withBase(link.href)} aria-current={isActive(link.href) ? "page" : undefined}>
+        {link.label}
+      </a>
+    ))
+  }
+</nav>

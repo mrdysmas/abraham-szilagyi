@@ -1,0 +1,82 @@
+---
+type AssetObject = {
+  src?: string;
+  width?: number;
+  height?: number;
+  default?: string | AssetObject;
+};
+
+type AssetLike = string | AssetObject | undefined | null;
+type MediaType = "image" | "video";
+
+export type Props = {
+  src?: AssetLike;
+  poster?: AssetLike;
+  alt?: string;
+  caption?: string;
+  proofLabel?: "Demo-safe screenshot" | "Prototype recording" | "Sanitized workflow diagram" | string;
+  mediaType?: MediaType;
+  class?: string;
+};
+
+const {
+  src,
+  poster,
+  alt = "",
+  caption,
+  proofLabel,
+  mediaType,
+  class: className,
+} = Astro.props;
+
+const resolveAsset = (asset: AssetLike): AssetObject | null => {
+  if (!asset) return null;
+  if (typeof asset === "string") return { src: asset };
+  if (typeof asset.default === "string") return { ...asset, src: asset.default };
+  if (asset.default && typeof asset.default === "object") return { ...asset.default, ...asset };
+  return asset.src ? asset : null;
+};
+
+const media = resolveAsset(src);
+const posterAsset = resolveAsset(poster);
+const mediaSrc = media?.src;
+const posterSrc = posterAsset?.src;
+const detectedType: MediaType = /\.(mp4|webm|mov|m4v)$/i.test(mediaSrc ?? "") ? "video" : "image";
+const resolvedType = mediaType ?? detectedType;
+const hasMeta = Boolean(caption || proofLabel);
+---
+
+{
+  mediaSrc && (
+    <figure class:list={["media-figure", className]}>
+      <div class="media-figure-frame">
+        {resolvedType === "video" ? (
+          <video
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="metadata"
+            poster={posterSrc}
+            src={mediaSrc}
+          />
+        ) : (
+          <img
+            src={mediaSrc}
+            width={media?.width}
+            height={media?.height}
+            alt={alt}
+            loading="lazy"
+            decoding="async"
+          />
+        )}
+      </div>
+      {hasMeta && (
+        <figcaption class="media-figure-caption">
+          {proofLabel && <span class="media-proof-label">{proofLabel}</span>}
+          {caption && <span>{caption}</span>}
+        </figcaption>
+      )}
+    </figure>
+  )
+}

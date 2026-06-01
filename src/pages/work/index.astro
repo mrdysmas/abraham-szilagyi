@@ -1,0 +1,177 @@
+---
+import CallToAction from "../../components/CallToAction.astro";
+import WorkCard from "../../components/WorkCard.astro";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { withBase } from "../../lib/routes.js";
+
+const email = "abeszilagyi@gmail.com";
+---
+
+<SiteLayout
+  title="Work Samples | Abraham Szilagyi"
+  description="Work samples from Abraham Szilagyi: practical prototypes and proof surfaces for turning messy operational work into clearer tools."
+  footerTagline="Operator-friendly systems for daily work."
+>
+    <main>
+      <section class="section page-hero">
+        <h1>Made for Daily Use</h1>
+        <p>
+          Focused tools like these can dramatically reduce manual work. They
+          have the largest impact where tedious but unavoidable repetition
+          compounds across teams, divisions, and entire organizations. When we
+          understand the bottlenecks, we can create structure that lets people
+          put their energy where it matters. Each tool takes aim at a specific
+          kind of friction and transforms it into something easier to use. This
+          approach can make an endless backlog feel like untapped possibility.
+        </p>
+      </section>
+
+      <section class="section tight">
+        {/* Draft note: These three cards are the project index. Next pass should sharpen evidence and decide which supporting projects deserve dedicated pages. */}
+        <div class="work-grid">
+          <WorkCard
+            title="Utility Work Routing Dashboard"
+            sampleId="utility-dashboard"
+            isActive={true}
+          />
+          <WorkCard
+            title="Automated PDF Conversion Flow"
+            sampleId="document-conversion"
+          />
+          <WorkCard
+            title="Source-Backed Records System"
+            sampleId="source-backed-records"
+          />
+        </div>
+
+        <div class="work-sample-panel" data-work-sample-panel>
+          <article
+            class="work-sample-detail is-active"
+            id="utility-dashboard-detail"
+            data-work-sample-detail="utility-dashboard"
+          >
+            <div>
+              <h2>Optimized Routes for Overhead Crews</h2>
+              <p>
+                The dashboard watches PDF packets that normally live in a
+                SharePoint directory. Power Automate runs low-cost, targeted
+                extraction on each packet, plots the jobs as markers on a map,
+                and gives an operator a guided surface for selecting the work
+                that is ready for dispatch. From there, they can generate,
+                edit, and export an optimized route for overhead crews to
+                follow.
+              </p>
+              <div class="button-row">
+                <a
+                  class="button primary"
+                  href="https://green-grass-03d2f9b0f.7.azurestaticapps.net/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Try live demo
+                </a>
+                <a class="button secondary" href={withBase("/work/utility-work-coordination-console/")}>
+                  Read case study
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <article
+            class="work-sample-detail"
+            id="document-conversion-detail"
+            data-work-sample-detail="document-conversion"
+            hidden
+          >
+            <div>
+              <h2>One Step Document Transformations</h2>
+              <p>
+                A backlog of pictures need to end up as PDFs ready for another
+                workflow. A table buried in a work packet will be handed off as
+                an Excel sheet. With the right flow, all you need to do is drag
+                and drop the files into the right SharePoint folder, and the
+                Power Automate flow handles the rest.
+              </p>
+            </div>
+          </article>
+
+          <article
+            class="work-sample-detail"
+            id="source-backed-records-detail"
+            data-work-sample-detail="source-backed-records"
+            hidden
+          >
+            <div>
+              <h2>Structured Data for Easy Navigation</h2>
+              <p>
+                Policies, contracts, and internal records might take weeks to
+                sift through before decisions get made. This information can be
+                more accessible with AI-augmented search engines. When agents
+                follow a formula for organizing crucial data, with an emphasis
+                on traceability, we can use everyday language to find a needle
+                in a haystack. Beyond faster retrieval with cited results, the
+                goal is sharper judgement through streamlined review,
+                comparison, and trust.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <CallToAction
+        title="Let's talk about what your team needs to make easier."
+        buttonText="Email Me"
+        copyValue={email}
+        copiedText="Copied"
+        secondaryHref="/"
+        secondaryText="About Me"
+      >
+        You do not need to know the fix yet. Walk me through where the work
+        gets stuck, and we can start there.
+      </CallToAction>
+
+      <script is:inline>
+        (() => {
+        const triggers = document.querySelectorAll("[data-work-sample-trigger]");
+        const details = document.querySelectorAll("[data-work-sample-detail]");
+
+        const setActiveSample = (sampleId, updateHash = true) => {
+          triggers.forEach((trigger) => {
+            const isActive = trigger.getAttribute("data-work-sample-trigger") === sampleId;
+            const card = trigger.closest(".work-card");
+
+            trigger.setAttribute("aria-pressed", isActive ? "true" : "false");
+            card?.classList.toggle("is-active", isActive);
+          });
+
+          details.forEach((detail) => {
+            const isActive = detail.getAttribute("data-work-sample-detail") === sampleId;
+
+            detail.classList.toggle("is-active", isActive);
+            detail.hidden = !isActive;
+          });
+
+          if (updateHash) {
+            history.replaceState(null, "", `#${sampleId}`);
+          }
+        };
+
+        triggers.forEach((trigger) => {
+          trigger.addEventListener("click", () => {
+            const sampleId = trigger.getAttribute("data-work-sample-trigger");
+
+            if (sampleId) {
+              setActiveSample(sampleId);
+            }
+          });
+        });
+
+        const initialSample = window.location.hash.replace("#", "");
+
+        if ([...triggers].some((trigger) => trigger.getAttribute("data-work-sample-trigger") === initialSample)) {
+          setActiveSample(initialSample, false);
+        }
+        })();
+      </script>
+    </main>
+</SiteLayout>

@@ -1,0 +1,123 @@
+---
+import CallToAction from "../components/CallToAction.astro";
+import CaseNote from "../components/CaseNote.astro";
+import CaseSection from "../components/CaseSection.astro";
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const email = "abeszilagyi@gmail.com";
+---
+
+<SiteLayout
+  title="About Me | Abraham Szilagyi"
+  description="About Abraham Szilagyi, a builder of practical workflow tools for operational friction, agent-assisted development, and daily-use systems."
+  footerTagline="Operator-friendly systems for daily work."
+>
+    <main>
+      <section class="section page-hero">
+        <h1>Navigating Operational Friction</h1>
+        <p>
+          I turn the work people dread into tools they want to use. Teams
+          coordinating across packets, shared folders, spreadsheets, and
+          handoffs need practical tools tailored to how their information
+          actually moves. These are the kinds of puzzles I like solving:
+          mapping the friction, finding the cleaner path, and building
+          solutions that meet people where they are.
+        </p>
+      </section>
+
+      <section class="section tight">
+        <CaseSection title="Designing for Momentum">
+            <p>
+              My best work happens where tasks get repeated, information gets
+              translated, and the next move gets delayed.
+            </p>
+            <div class="values-grid">
+              <CaseNote title="Listen First">
+                I start by understanding how the people closest to the problem see the work, before deciding what the system should become.
+              </CaseNote>
+              <CaseNote title="Find The Cleaner Path">
+                I look for where effort piles up, where the current path resists people, and where a simpler shape can emerge.
+              </CaseNote>
+              <CaseNote title="Build The Bridge">
+                I design between the current mess and the cleaner path, with tools that make sense to people who did not build them.
+              </CaseNote>
+              <CaseNote title="Guide The Landing">
+                I keep listening, adjusting, and simplifying until the new way feels like help instead of another system to manage.
+              </CaseNote>
+            </div>
+        </CaseSection>
+      </section>
+
+      <section class="section tight">
+        <CaseSection title="Built Under Pressure">
+            <p>
+              I spent years managing live event systems: broadcast, stage
+              lighting, sound, and multimedia setups for large audiences.
+            </p>
+            <p>
+              The controls had to be clear under stress, reliable when
+              conditions changed, and usable by teams with different levels of
+              experience. When a system was expected to work on cue, I learned
+              to prepare the fallback before anyone needed it.
+            </p>
+            <p>
+              That is the standard I bring to practical software. I stay close
+              to the people doing the work every day, respect the pressure they
+              are under, and make the next step easier to trust.
+            </p>
+        </CaseSection>
+      </section>
+
+      <section class="section tight">
+        <CaseSection title="Working With Agents">
+            <p>
+            AI helps me extend my operational discipline and explore more
+            solutions through a controlled workflow. I guide agents with clear
+            goals, carefully scoped tasks, thoughtful delegation, and critical
+            review. The results should be usable faster without becoming harder
+            to understand, test, or maintain.
+            </p>
+            <div class="values-grid">
+              <CaseNote title="Accelerate the Process">
+                Agents are force multipliers for exploration, implementation,
+                testing, and refinement. I stay responsible for defining the
+                problem, shaping the constraints, holding the work to clear
+                acceptance criteria, and proving the solution can be trusted.
+              </CaseNote>
+              <CaseNote title="Design for Delegation">
+                When a task is well defined, a lighter model can compete with
+                an expensive one. Effective delegation is not just cost
+                awareness; legible commands, structured tools, focused tasks,
+                and clear context reduce wasted time and expensive guesswork.
+              </CaseNote>
+              <CaseNote title="Make Progress Reusable">
+                AI-assisted work can leave behind a confusing trail; I
+                prioritize well-documented, coherent systems others can inspect,
+                verify, adjust, and extend. Future agents and developers should
+                be able to build on what we have already learned.
+              </CaseNote>
+              <CaseNote title="Use the Right Tool">
+                Not every problem needs maximum horsepower. Some tasks are
+                boring and mechanical; some need deeper analysis worth getting
+                right. I choose the model around the shape of the task, so
+                reasoning depth stays connected to the value of the decision
+                being made.
+              </CaseNote>
+            </div>
+        </CaseSection>
+      </section>
+
+      <CallToAction
+        id="workflow-conversation"
+        title="Let's talk about what your team needs to make easier."
+        buttonText="Email Me"
+        copyValue={email}
+        copiedText="Copied"
+        secondaryHref="/work/"
+        secondaryText="Check Out My Work"
+      >
+        You do not need to know the fix yet. Walk me through where the work
+        gets stuck, and we can start there.
+      </CallToAction>
+    </main>
+</SiteLayout>

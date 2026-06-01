@@ -1,0 +1,7 @@
+---
+const { variant, class: className } = Astro.props;
+---
+
+<span class:list={["badge", variant, className]}>
+  <slot />
+</span>
