@@ -24,5 +24,60 @@ const { title, description, footerTagline } = Astro.props;
     <Header />
     <slot />
     <Footer tagline={footerTagline} />
+    <script is:inline>
+      (() => {
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (reduceMotion) {
+          return;
+        }
+
+        let frame = 0;
+        let fadeTimer = 0;
+        let x = window.innerWidth / 2;
+        let y = window.innerHeight / 2;
+
+        const updateSpotlight = () => {
+          frame = 0;
+          document.body.style.setProperty("--spotlight-x", `${x}px`);
+          document.body.style.setProperty("--spotlight-y", `${y}px`);
+          document.body.style.setProperty("--spotlight-opacity", "1");
+        };
+
+        const scheduleSpotlight = (clientX, clientY) => {
+          x = clientX;
+          y = clientY;
+          window.clearTimeout(fadeTimer);
+          if (!frame) {
+            frame = window.requestAnimationFrame(updateSpotlight);
+          }
+        };
+
+        const fadeSpotlight = () => {
+          fadeTimer = window.setTimeout(() => {
+            document.body.style.setProperty("--spotlight-opacity", "0");
+          }, 160);
+        };
+
+        window.addEventListener("pointermove", (event) => {
+          scheduleSpotlight(event.clientX, event.clientY);
+        }, { passive: true });
+
+        window.addEventListener("pointerup", fadeSpotlight, { passive: true });
+        window.addEventListener("pointercancel", fadeSpotlight, { passive: true });
+        window.addEventListener("pointerleave", fadeSpotlight, { passive: true });
+
+        window.addEventListener("touchmove", (event) => {
+          const touch = event.touches[0];
+
+          if (touch) {
+            scheduleSpotlight(touch.clientX, touch.clientY);
+          }
+        }, { passive: true });
+
+        window.addEventListener("touchend", fadeSpotlight, { passive: true });
+        window.addEventListener("touchcancel", fadeSpotlight, { passive: true });
+      })();
+    </script>
   </body>
 </html>
