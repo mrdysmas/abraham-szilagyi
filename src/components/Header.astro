@@ -1,13 +1,45 @@
 ---
 import Nav from "./Nav.astro";
-import { withBase } from "../lib/routes.js";
 ---
 
 <header class="site-header">
   <div class="nav-shell">
-    <a class="brand" href={withBase("/")} aria-label="Abraham Szilagyi home">
+    <div class="brand" aria-label="Abraham Szilagyi">
       <strong>Abraham Szilagyi</strong>
-    </a>
+    </div>
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-controls="primary-navigation"
+      aria-expanded="false"
+      aria-label="Open navigation menu"
+      data-menu-toggle
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
     <Nav />
   </div>
 </header>
+
+<script is:inline>
+  (() => {
+    const toggle = document.querySelector("[data-menu-toggle]");
+    const nav = document.querySelector("#primary-navigation");
+
+    if (!toggle || !nav) {
+      return;
+    }
+
+    const setOpen = (isOpen) => {
+      toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      toggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+      nav.toggleAttribute("data-open", isOpen);
+    };
+
+    toggle.addEventListener("click", () => {
+      setOpen(toggle.getAttribute("aria-expanded") !== "true");
+    });
+  })();
+</script>

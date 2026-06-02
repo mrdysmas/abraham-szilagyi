@@ -24,12 +24,20 @@ const isActive = (href) => {
 };
 ---
 
-<nav class="site-nav" aria-label="Primary navigation">
+<nav class="site-nav" id="primary-navigation" aria-label="Primary navigation">
   {
-    links.map((link) => (
-      <a href={withBase(link.href)} aria-current={isActive(link.href) ? "page" : undefined}>
-        {link.label}
-      </a>
-    ))
+    links.map((link) => {
+      const active = isActive(link.href);
+
+      return active ? (
+        <span class="nav-current" aria-current="page">
+          {link.label}
+        </span>
+      ) : (
+        <a href={withBase(link.href)}>
+          {link.label}
+        </a>
+      );
+    })
   }
 </nav>
