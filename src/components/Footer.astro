@@ -1,16 +1,10 @@
 ---
-interface Props {
-  tagline: string;
-}
-
-const { tagline } = Astro.props;
 const email = "abeszilagyi@gmail.com";
 ---
 
 <footer class="site-footer">
   <div class="footer-inner">
     <span>Abraham Szilagyi</span>
-    <span>{tagline}</span>
     <a class="footer-email" href={`mailto:${email}`}>{email}</a>
   </div>
 </footer>
