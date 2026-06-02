@@ -75,10 +75,9 @@ const email = "abeszilagyi@gmail.com";
           </article>
 
           <article
-            class="work-sample-detail"
+            class="work-sample-detail is-hidden"
             id="document-conversion-detail"
             data-work-sample-detail="document-conversion"
-            hidden
           >
             <div>
               <h3 class="mobile-sample-title">Automated PDF Conversion Flow</h3>
@@ -94,10 +93,9 @@ const email = "abeszilagyi@gmail.com";
           </article>
 
           <article
-            class="work-sample-detail"
+            class="work-sample-detail is-hidden"
             id="source-backed-records-detail"
             data-work-sample-detail="source-backed-records"
-            hidden
           >
             <div>
               <h3 class="mobile-sample-title">Source-Backed Records System</h3>
@@ -141,6 +139,7 @@ const email = "abeszilagyi@gmail.com";
         (() => {
         const triggers = document.querySelectorAll("[data-work-sample-trigger]");
         const details = document.querySelectorAll("[data-work-sample-detail]");
+        const desktopQuery = window.matchMedia("(min-width: 681px)");
 
         const setActiveSample = (sampleId, updateHash = true) => {
           triggers.forEach((trigger) => {
@@ -155,7 +154,7 @@ const email = "abeszilagyi@gmail.com";
             const isActive = detail.getAttribute("data-work-sample-detail") === sampleId;
 
             detail.classList.toggle("is-active", isActive);
-            detail.hidden = !isActive;
+            detail.classList.toggle("is-hidden", !isActive);
           });
 
           if (updateHash) {
@@ -165,6 +164,10 @@ const email = "abeszilagyi@gmail.com";
 
         triggers.forEach((trigger) => {
           trigger.addEventListener("click", () => {
+            if (!desktopQuery.matches) {
+              return;
+            }
+
             const sampleId = trigger.getAttribute("data-work-sample-trigger");
 
             if (sampleId) {
@@ -175,7 +178,7 @@ const email = "abeszilagyi@gmail.com";
 
         const initialSample = window.location.hash.replace("#", "");
 
-        if ([...triggers].some((trigger) => trigger.getAttribute("data-work-sample-trigger") === initialSample)) {
+        if (desktopQuery.matches && [...triggers].some((trigger) => trigger.getAttribute("data-work-sample-trigger") === initialSample)) {
           setActiveSample(initialSample, false);
         }
         })();
